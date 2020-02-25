@@ -32,7 +32,8 @@ const communityActicleSchema = new Schema({
     UnitTen:{
         type:Number,
         required:false,
-        select:true
+        select:true,
+        default:0
     },
     //缩略图
     thumbnail:{
@@ -44,25 +45,36 @@ const communityActicleSchema = new Schema({
     goodsNum:{
         type:Number,
         required:false,
-        select:true
+        select:true,
+        default:0
+    },
+    //是否为好问题
+    isGoods:{
+        type:Boolean,
+        required:false,
+        select:true,
+        default:false
     },
     //关注数
     focusNum:{
         type:Number,
         required:false,
-        select:true
+        select:true,
+        default:0
     },
     //评论数
     commentNum:{
         type:Number,
         required:false,
-        select:true
+        select:true,
+        default:0
     },
     //浏览数
     browseNum:{
         type:Number,
         required:false,
-        select:true
+        select:true,
+        default:0
     },
     //绑定话题
     topics:{

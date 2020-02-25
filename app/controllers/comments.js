@@ -1,11 +1,11 @@
 const Comments = require('../models/comments');
+const Acticles = require('../models/communityActicle');
 const {
     secret
 } = require('../config');
 
 class CommentsCtl {
     async findByActicleId(ctx) {
-        console.log(ctx.params.communityActiclesId);
         const {
             per_Page = 10
         } = ctx.query;
@@ -45,6 +45,7 @@ class CommentsCtl {
         });
         console.log(1111);
         const comments = await new Comments(ctx.request.body).save();
+        await Acticles.findByIdAndUpdate(ctx.request.body.communityActicleId,{$inc: { commentNum: 1}});
         ctx.body = comments;
     }
     async update(ctx) {
