@@ -10,16 +10,29 @@ class ChatroomCtl {
         } = ctx.query;
         const page = Math.max(ctx.query.page * 1, 1) - 1;
         const perPage = Math.max(per_Page * 1, 1);
-        ctx.body = await Chatroom
+        const chatroom = await Chatroom
             .find()
             .limit(perPage).skip(page * perPage);
+            ctx.body = {
+                code:200,
+                msg:'success',
+                data:{
+                    chatroom
+                }
+            };
     }
     async findByUserId(ctx) {
         const chatroom = await Chatroom.findOne({userId :ctx.params.id});
         if (!chatroom) {
             ctx.throw(404, '该聊天不存在');
         }
-        ctx.body = chatroom;
+        ctx.body = {
+            code:200,
+            msg:'success',
+            data:{
+                chatroom
+            }
+        };
     }
     async update(ctx) {
         ctx.verifyParams({
@@ -36,7 +49,13 @@ class ChatroomCtl {
         if (!chatroom) {
             ctx.throw(404, '聊天室不存在');
         }
-        ctx.body = chatroom;
+        ctx.body = ctx.body = {
+            code:200,
+            msg:'success',
+            data:{
+                chatroom
+            }
+        };
     }
     async checkOwner(ctx, next) {
         if (ctx.params.id !== ctx.state.user._id) {

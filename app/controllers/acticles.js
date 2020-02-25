@@ -10,11 +10,18 @@ class ActiclesCtl {
         } = ctx.query;
         const page = Math.max(ctx.query.page * 1, 1) - 1;
         const perPage = Math.max(per_Page * 1, 1);
-        ctx.body = await Acticles
+        const acticles = await Acticles
             .find({
                 type: new RegExp(ctx.query.q)
             })
             .limit(perPage).skip(page * perPage);
+            ctx.body = {
+                code:200,
+                msg:'success',
+                data:{
+                    acticles
+                }
+            };
     }
     async create(ctx) {
         ctx.verifyParams({
@@ -28,7 +35,13 @@ class ActiclesCtl {
             }
         });
         const acticle = await new Acticles(ctx.request.body).save();
-        ctx.body = acticle;
+        ctx.body = {
+            code:200,
+            msg:'success',
+            data:{
+                acticles
+            }
+        };
     }
 }
 

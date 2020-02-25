@@ -5,8 +5,15 @@ const {
 
 class AboutUsCtl {
     async find(ctx) {
-        ctx.body = await AboutUs
+        const aboutUs = await AboutUs
             .find();
+            ctx.body = {
+                code:200,
+                msg:'success',
+                data:{
+                    aboutUs
+                }
+            };
     }
     async update(ctx) {
         ctx.verifyParams({
@@ -28,7 +35,13 @@ class AboutUsCtl {
             }
         });
         const aboutUs = await AboutUs.findByIdAndUpdate("5e534ba591b1b20498896380", ctx.request.body);
-        ctx.body = aboutUs;
+        ctx.body = ctx.body = {
+            code:200,
+            msg:'success',
+            data:{
+                aboutUs
+            }
+        };
     }
 }
 

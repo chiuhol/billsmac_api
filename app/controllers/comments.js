@@ -18,7 +18,13 @@ class CommentsCtl {
         if (!comments) {
             ctx.throw(404, '该文章暂无评论');
         }
-        ctx.body = comments;
+        ctx.body = {
+            code:200,
+            msg:'success',
+            data:{
+                comments
+            }
+        };
     }
     async create(ctx) {
         ctx.verifyParams({
@@ -46,7 +52,13 @@ class CommentsCtl {
         console.log(1111);
         const comments = await new Comments(ctx.request.body).save();
         await Acticles.findByIdAndUpdate(ctx.request.body.communityActicleId,{$inc: { commentNum: 1}});
-        ctx.body = comments;
+        ctx.body = ctx.body = {
+            code:200,
+            msg:'success',
+            data:{
+                comments
+            }
+        };
     }
     async update(ctx) {
         ctx.verifyParams({
@@ -79,7 +91,13 @@ class CommentsCtl {
         if (!comments) {
             ctx.throw(404, '该评论不存在');
         }
-        ctx.body = comments;
+        ctx.body = ctx.body = {
+            code:200,
+            msg:'success',
+            data:{
+                comments
+            }
+        };
     }
 }
 

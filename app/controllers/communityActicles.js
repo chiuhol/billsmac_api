@@ -12,31 +12,59 @@ class ActiclesCtl {
         const perPage = Math.max(per_Page * 1, 1);
         if(ctx.query.q === 'following'){
             console.log('following');
-            ctx.body = await Acticles
+            const acticle = await Acticles
             .find({
                 status: true,following: true
             })
             .limit(perPage).skip(page * perPage).sort({'createdAt':-1});
+            ctx.body = {
+                code:200,
+                msg:'success',
+                data:{
+                    acticle
+                }
+            };
         }else if(ctx.query.q === 'recommend'){
             console.log('recommend');
-            ctx.body = await Acticles
+            const acticle = await Acticles
             .find({
                 status: true,recommend: true
             })
             .limit(15).sort({'UnitTen':-1});
+            ctx.body = {
+                code:200,
+                msg:'success',
+                data:{
+                    acticle
+                }
+            };
         }else if(ctx.query.q === 'hot'){
             console.log('hot');
-            ctx.body = await Acticles
+            const acticle = await Acticles
             .find(
                 {status: true}
             ).limit(perPage).skip(page * perPage).sort({'UnitTen':-1});
+            ctx.body = {
+                code:200,
+                msg:'success',
+                data:{
+                    acticle
+                }
+            };
         }else{
             console.log('else');
-            ctx.body = await Acticles
+            const acticle = await Acticles
             .find({
                 status: true,title:new RegExp(ctx.query.q)
             })
             .limit(perPage).skip(page * perPage).sort({'UnitTen':-1});
+            ctx.body = {
+                code:200,
+                msg:'success',
+                data:{
+                    acticle
+                }
+            };
         }
     }
     async findByActicleId(ctx) {
@@ -54,7 +82,13 @@ class ActiclesCtl {
                 }
             });
         }
-        ctx.body = acticle;
+        ctx.body = {
+            code:200,
+            msg:'success',
+            data:{
+                acticle
+            }
+        };
     }
     async create(ctx) {
         ctx.verifyParams({
@@ -80,7 +114,13 @@ class ActiclesCtl {
             }
         });
         const acticle = await new Acticles(ctx.request.body).save();
-        ctx.body = acticle;
+        ctx.body = {
+            code:200,
+            msg:'success',
+            data:{
+                acticle
+            }
+        };
     }
     async update(ctx) {
         ctx.verifyParams({
@@ -160,7 +200,13 @@ class ActiclesCtl {
         if (!acticles) {
             ctx.throw(404, '该文章不存在');
         }
-        ctx.body = acticles;
+        ctx.body = {
+            code:200,
+            msg:'success',
+            data:{
+                acticle
+            }
+        };
     }
 }
 

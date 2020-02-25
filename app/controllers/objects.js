@@ -12,7 +12,11 @@ class ObjectsCtl {
         if (!objects) {
             ctx.throw(404, '该用户暂无对象');
         }
-        ctx.body = objects;
+        ctx.body = {
+            code:200,
+            msg:'success',
+            data:{objects}
+        };
     }
     async create(ctx) {
         ctx.verifyParams({
@@ -40,7 +44,11 @@ class ObjectsCtl {
             ctx.throw(409, '该对象已存在');
         }
         const objects = await new Objects(ctx.request.body).save();
-        ctx.body = objects;
+        ctx.body = {
+            code:200,
+            msg:'success',
+            data:{objects}
+        };
     }
     async update(ctx) {
         console.log(ctx.params.id);
@@ -67,7 +75,11 @@ class ObjectsCtl {
         if (!objects) {
             ctx.throw(404, '该对象不存在');
         }
-        ctx.body = objects;
+        ctx.body = {
+            code:200,
+            msg:'success',
+            data:{objects}
+        };
     }
 }
 

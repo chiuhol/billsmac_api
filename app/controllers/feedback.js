@@ -10,11 +10,16 @@ class FeedBackCtl {
         } = ctx.query;
         const page = Math.max(ctx.query.page * 1, 1) - 1;
         const perPage = Math.max(per_Page * 1, 1);
-        ctx.body = await Feedback
+        const feedback = await Feedback
             .find({
                 type: new RegExp(ctx.query.q)
             })
             .limit(perPage).skip(page * perPage);
+            ctx.body = {
+                code:200,
+                msg:'success',
+                data:{feedback}
+            };
     }
     async findByUserId(ctx) {
         const feedback = await Feedback.find({
@@ -23,7 +28,11 @@ class FeedBackCtl {
         if (!feedback) {
             ctx.throw(404, '该用户暂无反馈历史');
         }
-        ctx.body = feedback;
+        ctx.body = {
+            code:200,
+            msg:'success',
+            data:{feedback}
+        };
     }
     async create(ctx) {
         ctx.verifyParams({
@@ -45,7 +54,11 @@ class FeedBackCtl {
             }
         });
         const feedback = await new Feedback(ctx.request.body).save();
-        ctx.body = feedback;
+        ctx.body = {
+            code:200,
+            msg:'success',
+            data:{feedback}
+        };
     }
 }
 

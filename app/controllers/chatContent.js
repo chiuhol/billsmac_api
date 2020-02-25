@@ -9,13 +9,20 @@ class ChatContentCtl {
         const page = Math.max(ctx.query.page*1,1)-1;
         const perPage = Math.max(per_page*1,1);
         const q = new RegExp(ctx.query.q);
-        ctx.body = await ChatContent
+        const chatContent = await ChatContent
         .find({$or: [
             { key1: {$regex: q} },
             { key2: {$regex: q} },
             { key3: {$regex: q} }
         ],status:true,chatroomId:ctx.params.chatroomId})
         .limit(perPage).skip(page*perPage).sort({updatedAt:-1});
+        ctx.body = {
+            code:200,
+            msg:'success',
+            data:{
+                chatContent
+            }
+        };
     }
     async create(ctx) {
         ctx.verifyParams({
@@ -27,7 +34,13 @@ class ChatContentCtl {
         const user = ctx.state.user._id;
         const {chatroomId} = ctx.params;
         const chatContent = await new ChatContent({...ctx.request.body,user,chatroomId}).save();
-        ctx.body = chatContent;
+        ctx.body = ctx.body = {
+            code:200,
+            msg:'success',
+            data:{
+                chatContent
+            }
+        };
     }
     async update(ctx){
         ctx.verifyParams({
@@ -37,7 +50,13 @@ class ChatContentCtl {
             }
         });
         const chatContent = await ChatContent.findByIdAndUpdate(ctx.params.id, ctx.request.body);
-        ctx.body = chatContent;
+        ctx.body = ctx.body = {
+            code:200,
+            msg:'success',
+            data:{
+                chatContent
+            }
+        };
     }
 }
 

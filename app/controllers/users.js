@@ -12,11 +12,18 @@ class UsersCtl {
         } = ctx.query;
         const page = Math.max(ctx.query.page * 1, 1) - 1;
         const perPage = Math.max(per_Page * 1, 1);
-        ctx.body = await User
+        const user = await User
             .find({
                 phone: new RegExp(ctx.query.q)
             })
             .limit(perPage).skip(page * perPage);
+        ctx.body = {
+            code: 200,
+            msg: 'success',
+            data: {
+                user
+            }
+        };
     }
     async findById(ctx) {
         const {
@@ -27,7 +34,13 @@ class UsersCtl {
         if (!user) {
             ctx.throw(404, '用户不存在');
         }
-        ctx.body = user;
+        ctx.body = {
+            code: 200,
+            msg: 'success',
+            data: {
+                user
+            }
+        };
     }
     async create(ctx) {
         console.log(ctx.request.body);
@@ -49,8 +62,12 @@ class UsersCtl {
                 required: false
             }
         });
-        const { phone } = ctx.request.body;
-        const repeatedUser = await User.findOne({ phone });
+        const {
+            phone
+        } = ctx.request.body;
+        const repeatedUser = await User.findOne({
+            phone
+        });
         console.log(repeatedUser);
         if (repeatedUser) {
             ctx.throw(409, '用户已存在');
@@ -59,7 +76,14 @@ class UsersCtl {
         const chatroom = await new Chatroom({
             userId: user.id
         }).save();
-        ctx.body = user + chatroom;
+        ctx.body = {
+            code: 200,
+            msg: 'success',
+            data: {
+                user,
+                chatroom
+            }
+        };
     }
     async checkOwner(ctx, next) {
         if (ctx.params.id !== ctx.state.user._id) {
@@ -118,7 +142,13 @@ class UsersCtl {
         if (!user) {
             ctx.throw(404, '用户不存在');
         }
-        ctx.body = user;
+        ctx.body = {
+            code: 200,
+            msg: 'success',
+            data: {
+                user
+            }
+        };
     }
     async delete(ctx) {
         const user = await User.findByIdAndRemove(ctx.params.id);
@@ -126,6 +156,10 @@ class UsersCtl {
             ctx.throw(404, '用户不存在');
         }
         ctx.status = 204;
+        ctx.body = {
+            code: 204,
+            msg: 'success'
+        };
     }
     async login(ctx) {
         ctx.verifyParams({
@@ -153,7 +187,12 @@ class UsersCtl {
             expiresIn: '1d'
         });
         ctx.body = {
-            token,user
+            code: 200,
+            msg: 'success',
+            data: {
+                token,
+                user
+            }
         };
     }
 }
