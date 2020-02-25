@@ -153,7 +153,7 @@ class UsersCtl {
             expiresIn: '1d'
         });
         ctx.body = {
-            token
+            token,user
         };
     }
 }
