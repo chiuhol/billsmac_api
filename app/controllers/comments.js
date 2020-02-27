@@ -19,7 +19,7 @@ class CommentsCtl {
             ctx.throw(404, '该文章暂无评论');
         }
         ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{
                 comments
@@ -53,7 +53,7 @@ class CommentsCtl {
         const comments = await new Comments(ctx.request.body).save();
         await Acticles.findByIdAndUpdate(ctx.request.body.communityActicleId,{$inc: { commentNum: 1}});
         ctx.body = ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{
                 comments
@@ -92,7 +92,7 @@ class CommentsCtl {
             ctx.throw(404, '该评论不存在');
         }
         ctx.body = ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{
                 comments

@@ -18,7 +18,7 @@ class UsersCtl {
             })
             .limit(perPage).skip(page * perPage);
         ctx.body = {
-            code: 200,
+            status: 200,
             msg: 'success',
             data: {
                 user
@@ -35,7 +35,7 @@ class UsersCtl {
             ctx.throw(404, '用户不存在');
         }
         ctx.body = {
-            code: 200,
+            status: 200,
             msg: 'success',
             data: {
                 user
@@ -77,7 +77,7 @@ class UsersCtl {
             userId: user.id
         }).save();
         ctx.body = {
-            code: 200,
+            status: 200,
             msg: 'success',
             data: {
                 user,
@@ -143,7 +143,7 @@ class UsersCtl {
             ctx.throw(404, '用户不存在');
         }
         ctx.body = {
-            code: 200,
+            status: 200,
             msg: 'success',
             data: {
                 user
@@ -157,7 +157,7 @@ class UsersCtl {
         }
         ctx.status = 204;
         ctx.body = {
-            code: 204,
+            status: 204,
             msg: 'success'
         };
     }
@@ -187,7 +187,7 @@ class UsersCtl {
             expiresIn: '1d'
         });
         ctx.body = {
-            code: 200,
+            status:200,
             msg: 'success',
             data: {
                 token,

@@ -13,7 +13,7 @@ class ObjectsCtl {
             ctx.throw(404, '该用户暂无对象');
         }
         ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{objects}
         };
@@ -45,7 +45,7 @@ class ObjectsCtl {
         }
         const objects = await new Objects(ctx.request.body).save();
         ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{objects}
         };
@@ -76,7 +76,7 @@ class ObjectsCtl {
             ctx.throw(404, '该对象不存在');
         }
         ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{objects}
         };

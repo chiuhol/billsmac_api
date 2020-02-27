@@ -19,6 +19,7 @@ mongoose.connection.on('error', console.error);
 app.use(koaStatic(path.join(__dirname,'public')));
 app.use(error({
     postFormat: (e, {
+        code,
         stack,
         ...rest
     }) => process.env.NODE_ENV === 'production' ? rest : {
@@ -26,6 +27,15 @@ app.use(error({
         ...rest
     }
 }));
+// app.use(async (ctx, next) => {
+//     try {
+//       await next();
+//     } catch (err) {
+//       ctx.status = err.status || 500;
+//       ctx.body = err.message;
+//       ctx.app.emit("error", err, ctx);
+//     }
+//   });
 app.use(koaBody({
     multipart:true,
     formidable:{

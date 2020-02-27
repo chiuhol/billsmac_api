@@ -14,7 +14,7 @@ class ChatroomCtl {
             .find()
             .limit(perPage).skip(page * perPage);
             ctx.body = {
-                code:200,
+                status:200,
                 msg:'success',
                 data:{
                     chatroom
@@ -27,7 +27,7 @@ class ChatroomCtl {
             ctx.throw(404, '该聊天不存在');
         }
         ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{
                 chatroom
@@ -50,7 +50,7 @@ class ChatroomCtl {
             ctx.throw(404, '聊天室不存在');
         }
         ctx.body = ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{
                 chatroom

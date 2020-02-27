@@ -18,7 +18,7 @@ class ActiclesCtl {
             })
             .limit(perPage).skip(page * perPage).sort({'createdAt':-1});
             ctx.body = {
-                code:200,
+                status:200,
                 msg:'success',
                 data:{
                     acticle
@@ -32,7 +32,7 @@ class ActiclesCtl {
             })
             .limit(15).sort({'UnitTen':-1});
             ctx.body = {
-                code:200,
+                status:200,
                 msg:'success',
                 data:{
                     acticle
@@ -45,7 +45,7 @@ class ActiclesCtl {
                 {status: true}
             ).limit(perPage).skip(page * perPage).sort({'UnitTen':-1});
             ctx.body = {
-                code:200,
+                status:200,
                 msg:'success',
                 data:{
                     acticle
@@ -59,7 +59,7 @@ class ActiclesCtl {
             })
             .limit(perPage).skip(page * perPage).sort({'UnitTen':-1});
             ctx.body = {
-                code:200,
+                status:200,
                 msg:'success',
                 data:{
                     acticle
@@ -83,7 +83,7 @@ class ActiclesCtl {
             });
         }
         ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{
                 acticle
@@ -115,7 +115,7 @@ class ActiclesCtl {
         });
         const acticle = await new Acticles(ctx.request.body).save();
         ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{
                 acticle
@@ -201,7 +201,7 @@ class ActiclesCtl {
             ctx.throw(404, '该文章不存在');
         }
         ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{
                 acticle

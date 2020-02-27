@@ -16,7 +16,7 @@ class ActiclesCtl {
             })
             .limit(perPage).skip(page * perPage);
             ctx.body = {
-                code:200,
+                status:200,
                 msg:'success',
                 data:{
                     acticles
@@ -36,7 +36,7 @@ class ActiclesCtl {
         });
         const acticle = await new Acticles(ctx.request.body).save();
         ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{
                 acticles

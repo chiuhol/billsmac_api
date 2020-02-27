@@ -16,7 +16,7 @@ class FeedBackCtl {
             })
             .limit(perPage).skip(page * perPage);
             ctx.body = {
-                code:200,
+                status:200,
                 msg:'success',
                 data:{feedback}
             };
@@ -29,7 +29,7 @@ class FeedBackCtl {
             ctx.throw(404, '该用户暂无反馈历史');
         }
         ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{feedback}
         };
@@ -55,7 +55,7 @@ class FeedBackCtl {
         });
         const feedback = await new Feedback(ctx.request.body).save();
         ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{feedback}
         };

@@ -17,7 +17,7 @@ class ChatContentCtl {
         ],status:true,chatroomId:ctx.params.chatroomId})
         .limit(perPage).skip(page*perPage).sort({updatedAt:-1});
         ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{
                 chatContent
@@ -35,7 +35,7 @@ class ChatContentCtl {
         const {chatroomId} = ctx.params;
         const chatContent = await new ChatContent({...ctx.request.body,user,chatroomId}).save();
         ctx.body = ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{
                 chatContent
@@ -51,7 +51,7 @@ class ChatContentCtl {
         });
         const chatContent = await ChatContent.findByIdAndUpdate(ctx.params.id, ctx.request.body);
         ctx.body = ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{
                 chatContent

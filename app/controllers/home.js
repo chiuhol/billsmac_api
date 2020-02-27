@@ -8,7 +8,7 @@ class HomeCtl {
         const file = ctx.request.files.file;
         const basename = path.basename(file.path);
         ctx.body = {
-            code:200,
+            status:200,
             msg:'success',
             data:{url:ctx.origin+'/uploads/'+basename}
         };
