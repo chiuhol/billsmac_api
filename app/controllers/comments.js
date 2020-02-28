@@ -19,9 +19,9 @@ class CommentsCtl {
             ctx.throw(404, '该文章暂无评论');
         }
         ctx.body = {
-            status:200,
-            msg:'success',
-            data:{
+            status: 200,
+            msg: 'success',
+            data: {
                 comments
             }
         };
@@ -51,11 +51,15 @@ class CommentsCtl {
         });
         console.log(1111);
         const comments = await new Comments(ctx.request.body).save();
-        await Acticles.findByIdAndUpdate(ctx.request.body.communityActicleId,{$inc: { commentNum: 1}});
+        await Acticles.findByIdAndUpdate(ctx.request.body.communityActicleId, {
+            $inc: {
+                commentNum: 1
+            }
+        });
         ctx.body = ctx.body = {
-            status:200,
-            msg:'success',
-            data:{
+            status: 200,
+            msg: 'success',
+            data: {
                 comments
             }
         };
@@ -87,14 +91,49 @@ class CommentsCtl {
                 required: false
             }
         });
+        //实现对点赞数的自增或自减
+        if (typeof (ctx.request.body.isAgree) !== "undefined") {
+            console.log("好问题数" + ctx.request.body.isAgree);
+            if (ctx.request.body.isAgree === true) {
+                await Comments.findByIdAndUpdate(ctx.params.id, {
+                    $inc: {
+                        agreeNum: 1
+                    }
+                });
+            } else {
+                await Comments.findByIdAndUpdate(ctx.params.id, {
+                    $inc: {
+                        agreeNum: -1
+                    }
+                });
+            }
+        }
+        //实现对喜欢数的自增或自减
+        if (typeof (ctx.request.body.isLike) !== "undefined") {
+            console.log("关注数" + ctx.request.body.isLike);
+            if (ctx.request.body.isLike === true) {
+                await Comments.findByIdAndUpdate(ctx.params.id, {
+                    $inc: {
+                        likeNum: 1
+                    }
+                });
+            } else {
+                await Comments.findByIdAndUpdate(ctx.params.id, {
+                    $inc: {
+                        likeNum: -1
+                    }
+                });
+            }
+        }
+
         const comments = await Comments.findByIdAndUpdate(ctx.params.id, ctx.request.body);
         if (!comments) {
             ctx.throw(404, '该评论不存在');
         }
         ctx.body = ctx.body = {
-            status:200,
-            msg:'success',
-            data:{
+            status: 200,
+            msg: 'success',
+            data: {
                 comments
             }
         };
