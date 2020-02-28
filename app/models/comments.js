@@ -44,19 +44,22 @@ const commentsSchema = new Schema({
     commentNum:{
         type:Number,
         required:false,
-        select:true
+        select:true,
+        default:0,
     },
     //赞同数
     agreeNum:{
         type:Number,
         required:false,
-        select:true
+        select:true,
+        default:0,
     },
     //喜欢数
     likeNum:{
         type:Number,
         required:false,
-        select:true
+        select:true,
+        default:0,
     },
     //是否赞同
     isAgree:{

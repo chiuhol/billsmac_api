@@ -92,6 +92,7 @@ class UsersCtl {
         await next();
     }
     async update(ctx) {
+        console.log(ctx.request.body);
         ctx.verifyParams({
             phone: {
                 type: 'string',

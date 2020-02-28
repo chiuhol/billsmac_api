@@ -204,7 +204,7 @@ class ActiclesCtl {
             status:200,
             msg:'success',
             data:{
-                acticle
+                acticles
             }
         };
     }
