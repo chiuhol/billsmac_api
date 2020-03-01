@@ -4,22 +4,27 @@ const {
 } = require('../config');
 
 class ChatContentCtl {
-    async find(ctx){
-        const {per_page=10} = ctx.query;
-        const page = Math.max(ctx.query.page*1,1)-1;
-        const perPage = Math.max(per_page*1,1);
+    async find(ctx) {
+        const {
+            per_page = 10
+        } = ctx.query;
+        const page = Math.max(ctx.query.page * 1, 1) - 1;
+        const perPage = Math.max(per_page * 1, 1);
         const q = new RegExp(ctx.query.q);
+        // const reg = new RegExp(ctx.query.q,'i');
         const chatContent = await ChatContent
-        .find({$or: [
-            { key1: {$regex: q} },
-            { key2: {$regex: q} },
-            { key3: {$regex: q} }
-        ],status:true,chatroomId:ctx.params.chatroomId})
-        .limit(perPage).skip(page*perPage).sort({updatedAt:-1});
+            .find({
+                status: true,
+                chatroomId: ctx.params.chatroomId,
+                'rightcontent.typeStr': q
+            })
+            .limit(perPage).skip(page * perPage).sort({
+                updatedAt: -1
+            });
         ctx.body = {
-            status:200,
-            msg:'success',
-            data:{
+            status: 200,
+            msg: 'success',
+            data: {
                 chatContent
             }
         };
@@ -27,22 +32,28 @@ class ChatContentCtl {
     async create(ctx) {
         ctx.verifyParams({
             rightcontent: {
-                type: 'array',
+                type: 'object',
                 required: true
             }
         });
         const user = ctx.state.user._id;
-        const {chatroomId} = ctx.params;
-        const chatContent = await new ChatContent({...ctx.request.body,user,chatroomId}).save();
+        const {
+            chatroomId
+        } = ctx.params;
+        const chatContent = await new ChatContent({
+            ...ctx.request.body,
+            user,
+            chatroomId
+        }).save();
         ctx.body = ctx.body = {
-            status:200,
-            msg:'success',
-            data:{
+            status: 200,
+            msg: 'success',
+            data: {
                 chatContent
             }
         };
     }
-    async update(ctx){
+    async update(ctx) {
         ctx.verifyParams({
             rightcontent: {
                 type: 'array',
@@ -51,9 +62,9 @@ class ChatContentCtl {
         });
         const chatContent = await ChatContent.findByIdAndUpdate(ctx.params.id, ctx.request.body);
         ctx.body = ctx.body = {
-            status:200,
-            msg:'success',
-            data:{
+            status: 200,
+            msg: 'success',
+            data: {
                 chatContent
             }
         };

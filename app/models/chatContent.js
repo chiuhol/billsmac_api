@@ -27,7 +27,7 @@ const chatContentSchema = new Schema({
         required: false
     },
     rightcontent: {
-        type: [{
+        type: {
             typeStr: {
                 type: String,
                 required: false
@@ -45,7 +45,7 @@ const chatContentSchema = new Schema({
                 type:String,
                 required:false
             }
-        }],
+        },
         required: false
     },
     rightAvatar:{
