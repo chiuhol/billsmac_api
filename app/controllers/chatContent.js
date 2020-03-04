@@ -11,7 +11,6 @@ class ChatContentCtl {
         const page = Math.max(ctx.query.page * 1, 1) - 1;
         const perPage = Math.max(per_page * 1, 1);
         const q = new RegExp(ctx.query.q);
-        // const reg = new RegExp(ctx.query.q,'i');
         const chatContent = await ChatContent
             .find({
                 status: true,
@@ -56,7 +55,7 @@ class ChatContentCtl {
     async update(ctx) {
         ctx.verifyParams({
             rightcontent: {
-                type: 'array',
+                type: 'object',
                 required: false
             }
         });
