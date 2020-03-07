@@ -197,7 +197,6 @@ class UsersCtl {
         };
     }
     async updatePwd(ctx) {
-        console.log(1111);
         ctx.verifyParams({
             phone: {
                 type: 'string',
@@ -209,31 +208,40 @@ class UsersCtl {
             },
             newPwd: {
                 type: 'string',
-                required: true
+                required: false
             }
         });
-        console.log(ctx.request.body.phone);
-        console.log(ctx.request.body.oldPwd);
         const user1 = await User.findOne({
             "phone": ctx.request.body.phone,
             "password": ctx.request.body.oldPwd
         });
         if (!user1) {
-            ctx.throw(401, '用户名或密码不正确');
+            ctx.throw(401, '密码不正确');
         }
-        const user2 = await User.findByIdAndUpdate(ctx.params.id, {
-            "password": ctx.request.body.newPwd
-        });
-        if (!user2) {
-            ctx.throw(404, '用户不存在');
-        }
-        ctx.body = {
-            status: 200,
-            msg: 'success',
-            data: {
-                user2
+        if(ctx.request.body.newPwd != null && ctx.request.body.newPwd != ''){
+            const user2 = await User.findByIdAndUpdate(ctx.params.id, {
+                "password": ctx.request.body.newPwd
+            });
+            if (!user2) {
+                ctx.throw(404, '用户不存在');
             }
-        };
+            ctx.body = {
+                status: 200,
+                msg: 'success',
+                data: {
+                    user2
+                }
+            };
+        }else{
+            ctx.body = {
+                status: 200,
+                msg: 'success',
+                data: {
+                    user1
+                }
+            };
+        }
+        
     }
 }
 
