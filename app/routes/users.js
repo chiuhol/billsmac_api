@@ -10,7 +10,8 @@ const {
     update,
     delete: del,
     login,
-    checkOwner
+    checkOwner,
+    updatePwd
 } = require('../controllers/users');
 
 const {
@@ -28,6 +29,8 @@ router.post('/', create);
 router.get('/:id', findById);
 
 router.patch('/:id', auth, checkOwner, update);
+
+router.patch('/updatePwd/:id', auth, checkOwner, updatePwd);
 
 router.delete('/:id', auth, checkOwner, del);
 
