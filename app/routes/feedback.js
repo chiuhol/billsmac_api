@@ -21,6 +21,6 @@ router.get('/:id', findByUserId);
 
 router.post('/:id', auth,create);
 
-router.patch('/:id',auth,update);
+router.patch('/:id',update);
 
 module.exports = router;
