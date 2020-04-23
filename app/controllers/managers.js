@@ -115,24 +115,15 @@ class ManagersCtl {
         };
     }
     async login(ctx) {
-        ctx.verifyParams({
-            account: {
-                type: 'string',
-                required: true
-            },
-            password: {
-                type: 'string',
-                required: true
-            },
-        });
         const manager = await Managers.findOne(ctx.request.body);
         if (!manager) {
             ctx.throw(401, '用户名或密码不正确');
         }
+        console.log(manager);
         const {
             _id,
             account
-        } = user;
+        } = manager;
         const token = jsonwebtoken.sign({
             _id,
             account
