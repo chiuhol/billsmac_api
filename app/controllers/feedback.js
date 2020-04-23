@@ -60,6 +60,25 @@ class FeedBackCtl {
             data:{feedback}
         };
     }
+    async update(ctx) {
+        ctx.verifyParams({
+            status:{
+                type:'boolen',
+                required:false
+            }
+        });
+        const feedback = await Feedback.findByIdAndUpdate(ctx.params.id, ctx.request.body);
+        if (!feedback) {
+            ctx.throw(404, '该反馈不存在');
+        }
+        ctx.body = ctx.body = {
+            status:200,
+            msg:'success',
+            data:{
+                feedback
+            }
+        };
+    }
 }
 
 module.exports = new FeedBackCtl();

@@ -20,6 +20,12 @@ const userSchema = new Schema({
         required: true,
         select: false
     },
+    isManager:{
+        type:Boolean,
+        required:false,
+        default:false,
+        select:true
+    },
     wechat_openId:{
         type:String,
         required:false,

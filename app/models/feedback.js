@@ -30,6 +30,12 @@ const feedbackSchema = new Schema({
         type:String,
         required:true,
         select: true
+    },
+    status:{
+        type:Boolean,
+        required:false,
+        default:false,
+        select:true
     }
 }, {
     timestamps: true

@@ -1,11 +1,11 @@
 const jwt = require('koa-jwt');
 const Router = require('koa-router');
 const router = new Router({
-    prefix: '/feedback'
+    prefix: '/users/:userId/corpus'
 });
 const {
-    find,findByUserId,create,update
-} = require('../controllers/feedback');
+    find,update,create
+} = require('../controllers/corpus');
 
 const {
     secret
@@ -15,11 +15,9 @@ const auth = jwt({
     secret
 });
 
-router.get('/', find);
+router.get('/',find);
 
-router.get('/:id', findByUserId);
-
-router.post('/:id', auth,create);
+router.post('/',create);
 
 router.patch('/:id',auth,update);
 

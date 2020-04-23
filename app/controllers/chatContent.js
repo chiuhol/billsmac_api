@@ -1,4 +1,5 @@
 const ChatContent = require('../models/chatContent');
+const Corpus = require('../models/corpus');
 const {
     secret
 } = require('../config');
@@ -39,8 +40,28 @@ class ChatContentCtl {
         const {
             chatroomId
         } = ctx.params;
+        const typeStr = ctx.request.body.rightcontent.typeStr;
+        let corpus = await Corpus.find({
+            status: true,
+            userId: ctx.state.user._id,
+            content: typeStr
+        });
+        let leftContent;
+        if(corpus.length == 0){
+            corpus = await Corpus.find({
+                status: true,
+                content: typeStr
+            });
+        }
+        //如果语料包中都不存在，则为默认
+        if(corpus.length == 0){
+            leftContent = "好好学习，天天向上！";
+        }else{
+            leftContent = corpus[Math.floor(Math.random()*corpus.length)].response;//从语料包中随机抽出一个
+        }
         const chatContent = await new ChatContent({
-            ...ctx.request.body,
+            rightcontent:ctx.request.body.rightcontent,
+            leftcontent:leftContent,
             user,
             chatroomId
         }).save();

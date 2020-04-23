@@ -139,6 +139,14 @@ class UsersCtl {
                 required: false
             }
         });
+        if(ctx.request.body.phone != null && ctx.request.body.phone != ''){
+            const repeatedUser = await User.findOne({
+                phone
+            });
+            if (repeatedUser) {
+                ctx.throw(409, '该手机号码已存在');
+            }
+        }
         const user = await User.findByIdAndUpdate(ctx.params.id, ctx.request.body);
         if (!user) {
             ctx.throw(404, '用户不存在');
