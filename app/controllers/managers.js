@@ -1,5 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
-const Mangaers = require('../models/managers');
+const Managers = require('../models/managers');
 const {
     secret
 } = require('../config');
@@ -11,7 +11,7 @@ class ManagersCtl {
         } = ctx.query;
         const page = Math.max(ctx.query.page * 1, 1) - 1;
         const perPage = Math.max(per_Page * 1, 1);
-        const managers = await Mangaers
+        const managers = await Managers
             .find({
                 jobNum: new RegExp(ctx.query.q)
             })
@@ -89,7 +89,7 @@ class ManagersCtl {
                 required: false
             },
             status:{
-                type:'string',
+                type:'boolean',
                 required:false
             }
 
@@ -102,7 +102,7 @@ class ManagersCtl {
                 ctx.throw(409, '该管理员账号已存在');
             }
         }
-        const manager = await Mangaers.findByIdAndUpdate(ctx.params.id, ctx.request.body);
+        const manager = await Managers.findByIdAndUpdate(ctx.params.id, ctx.request.body);
         if (!manager) {
             ctx.throw(404, '该管理员不存在');
         }
@@ -150,4 +150,4 @@ class ManagersCtl {
     }
 }
 
-module.exports = new UsersCtl();
+module.exports = new ManagersCtl();

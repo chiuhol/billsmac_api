@@ -25,7 +25,7 @@ router.post('/', create);
 
 router.get('/:id', findById);
 
-router.patch('/:id', auth, update);
+router.patch('/:id', update);
 
 router.post('/login', login);
 
