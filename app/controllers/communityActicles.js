@@ -67,6 +67,25 @@ class ActiclesCtl {
             };
         }
     }
+    async findAll(ctx) {
+        const {
+            per_Page = 10
+        } = ctx.query;
+        const page = Math.max(ctx.query.page * 1, 1) - 1;
+        const perPage = Math.max(per_Page * 1, 1);
+            const acticle = await Acticles
+            .find({
+                title:new RegExp(ctx.query.q)
+            })
+            .limit(perPage).skip(page * perPage).sort({'UnitTen':-1});
+            ctx.body = {
+                status:200,
+                msg:'success',
+                data:{
+                    acticle
+                }
+            };
+    }
     async findByActicleId(ctx) {
         const acticle = await Acticles.find({
             status: true,

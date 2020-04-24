@@ -4,7 +4,7 @@ const router = new Router({
     prefix: '/communityActicles'
 });
 const {
-    find,findByActicleId,create,update
+    find,findByActicleId,create,update,findAll
 } = require('../controllers/communityActicles');
 
 const {
@@ -16,6 +16,8 @@ const auth = jwt({
 });
 
 router.get('/', find);
+
+router.get('/manager', findAll);
 
 router.get('/:id', findByActicleId);
 
