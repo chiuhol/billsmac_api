@@ -61,9 +61,10 @@ class FeedBackCtl {
         };
     }
     async update(ctx) {
+        console.log(ctx.request.body);
         ctx.verifyParams({
             status:{
-                type:'boolen',
+                type:'boolean',
                 required:false
             }
         });

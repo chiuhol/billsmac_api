@@ -32,7 +32,7 @@ router.patch('/:id', auth, checkOwner, update);
 
 router.patch('/updatePwd/:id', auth, checkOwner, updatePwd);
 
-router.delete('/:id', auth, checkOwner, del);
+router.delete('/:id', del);
 
 router.post('/login', login);
 
