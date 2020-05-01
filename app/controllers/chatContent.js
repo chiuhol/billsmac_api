@@ -190,11 +190,11 @@ class ChatContentCtl {
                     }
                 }
                 expendTotleLst.push({
-                    "typeStr":chatContent[i]["_id"],
+                    "typeStr":chatContent[i]["_id"]["unit_name"],
                     "expendTotle":expend
                 });
                 incomeTotleLst.push({
-                    "typeStr":chatContent[i]["_id"],
+                    "typeStr":chatContent[i]["_id"]["unit_name"],
                     "incomeTotle":income
                 });
             }
