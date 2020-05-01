@@ -4,7 +4,7 @@ const router = new Router({
     prefix: '/chatroom/:chatroomId/chatContent'
 });
 const {
-    find,create,update,static
+    find,create,update,static,staticByType
 } = require('../controllers/chatContent');
 
 const {
@@ -22,5 +22,7 @@ router.post('/', auth,create);
 router.patch('/:id', auth, update);
 
 router.get('/static',static);
+
+router.get('/staticByType',staticByType);
 
 module.exports = router;

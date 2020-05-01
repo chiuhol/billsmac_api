@@ -148,6 +148,67 @@ class ChatContentCtl {
                 }
             };
     }
+    async staticByType(ctx){
+        var incomeTotleLst = [];
+        var expendTotleLst = [];
+        var incomeTotle = 0;
+        var expendTotle = 0;
+        var monthLst = getMonthFirstLastDay(ctx.query.year,ctx.query.month);
+            const chatContent = await ChatContent.aggregate(
+                [
+                    {
+                        $match://条件筛选关键词，类似mysql中的where
+                        {
+                            status: true,
+                            chatroomId: ctx.params.chatroomId,
+                            createdAt: {
+                                $gte: new Date(monthLst[0]),
+                                $lte: new Date(monthLst[1])
+                             }
+                        }
+                    },
+                    {
+                        $group:
+                        {
+                            _id: {unit_name:"$rightcontent.typeStr"},//{}内的是分组条件
+                            // count: { $sum: 1 }//类似于.count 但这是是管道函数　　所以还需要加上$sum关键词
+                            arr: { $push: "$rightcontent"}
+                        },
+                    }
+                ]
+            );
+            for(var i = 0; i < chatContent.length; i++){
+                var income = 0;
+                var expend = 0;
+                for(var j = 0; j < chatContent[i]["arr"].length; j++){
+                    if(chatContent[i]["arr"][j]["amountType"] == "expend"){
+                        expend += (+chatContent[i]["arr"][j]["amount"]);
+                        expendTotle += (+chatContent[i]["arr"][j]["amount"]);
+                    }else{
+                        income += (+chatContent[i]["arr"][j]["amount"]);
+                        incomeTotle += (+chatContent[i]["arr"][j]["amount"]);
+                    }
+                }
+                expendTotleLst.push({
+                    "typeStr":chatContent[i]["_id"],
+                    "expendTotle":expend
+                });
+                incomeTotleLst.push({
+                    "typeStr":chatContent[i]["_id"],
+                    "incomeTotle":income
+                });
+            }
+    ctx.body = {
+        status: 200,
+        msg: 'success',
+        data: {
+            "expendTotleLst":expendTotleLst,
+            "incomeTotleLst":incomeTotleLst,
+            "expendTotle":expendTotle,
+            "incomeTotle":incomeTotle
+        }
+    }; 
+    }
 }
 
 //获取指定年份、月份的第一天与最后一天
