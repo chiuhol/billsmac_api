@@ -52,7 +52,7 @@ class ChatContentCtl {
                 status: true,
                 content: typeStr
             });
-        }
+        } 
         //如果语料包中都不存在，则为默认
         if(corpus.length == 0){
             leftContent = "好好学习，天天向上！";
@@ -89,6 +89,78 @@ class ChatContentCtl {
             }
         };
     }
+    async static(ctx){
+        var expendTotle = 0;
+        var incomeTotle = 0;
+        //查总量
+        const chatContent = await ChatContent.find(
+            {
+                status: true,
+                chatroomId: ctx.params.chatroomId,
+            }
+        );
+        for(var i = 0; i < chatContent.length; i++){
+            if(chatContent[i].rightcontent.amountType == "expend"){
+                expendTotle += (+chatContent[i].rightcontent.amount);
+            }else if(chatContent[i].rightcontent.amountType == "income"){
+                incomeTotle += (+chatContent[i].rightcontent.amount);
+            }
+        }
+        //按月查
+        var today = new Date();
+        var todayMonth = today.getMonth()+1;
+        var totleByMonthLst = [];
+        if(ctx.query.q != today.getFullYear()){
+            todayMonth = 12;
+        }
+        for(var i = todayMonth; i > 0; i--){
+            var monthLst = getMonthFirstLastDay(ctx.query.q,i);
+            var expendTotleByMonth = 0;
+            var incomeTotleByMonth = 0; 
+            const chatContentByMonth = await ChatContent.find({
+                status: true,
+                chatroomId: ctx.params.chatroomId,
+                'createdAt': {
+                    $gte: new Date(monthLst[0]),
+                    $lte: new Date(monthLst[1])
+                 }
+            });
+            for(var j = 0; j < chatContentByMonth.length; j++){
+                if(chatContentByMonth[j].rightcontent.amountType == "expend"){
+                    expendTotleByMonth += (+chatContentByMonth[j].rightcontent.amount);
+                }else if(chatContentByMonth[j].rightcontent.amountType == "income"){
+                    incomeTotleByMonth += (+chatContentByMonth[j].rightcontent.amount);
+                }
+            }
+            totleByMonthLst.push({
+                "month":i+"月",
+                "expendTotleByMonth":expendTotleByMonth,
+                "incomeTotleByMonth":incomeTotleByMonth
+            });
+            }
+            ctx.body = ctx.body = {
+                status: 200,
+                msg: 'success',
+                data: {
+                    "expendTotle":expendTotle,
+                    "incomeTotle":incomeTotle,
+                    "totleByMonthLst":totleByMonthLst
+                }
+            };
+    }
+}
+
+//获取指定年份、月份的第一天与最后一天
+function getMonthFirstLastDay(year,month){
+    var firstDay=new Date(year,month-1,1);//这个月的第一天
+    var currentMonth=firstDay.getMonth(); //取得月份数
+    var lastDay=new Date(firstDay.getFullYear(),currentMonth+1,0);//是0而不是-1
+    firstDay=firstDay.setDate(firstDay.getDate()+1);
+    firstDay=new Date(firstDay);
+    lastDay=lastDay.setDate(lastDay.getDate()+1);
+    lastDay=new Date(lastDay);
+
+    return [firstDay,lastDay];
 }
 
 module.exports = new ChatContentCtl();
