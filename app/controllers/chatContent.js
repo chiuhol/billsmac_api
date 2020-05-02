@@ -174,29 +174,37 @@ class ChatContentCtl {
                             // count: { $sum: 1 }//类似于.count 但这是是管道函数　　所以还需要加上$sum关键词
                             arr: { $push: "$rightcontent"}
                         },
+                    },                    
+                    {
+                        $sort://排序关键词
+                        {
+                            createdAt:-1//排序规则
+                        }
                     }
                 ]
             );
             for(var i = 0; i < chatContent.length; i++){
-                var income = 0;
-                var expend = 0;
-                for(var j = 0; j < chatContent[i]["arr"].length; j++){
-                    if(chatContent[i]["arr"][j]["amountType"] == "expend"){
-                        expend += (+chatContent[i]["arr"][j]["amount"]);
-                        expendTotle += (+chatContent[i]["arr"][j]["amount"]);
-                    }else{
-                        income += (+chatContent[i]["arr"][j]["amount"]);
-                        incomeTotle += (+chatContent[i]["arr"][j]["amount"]);
+                if(chatContent[i]["_id"]["unit_name"] != null){
+                    var income = 0;
+                    var expend = 0;
+                    for(var j = 0; j < chatContent[i]["arr"].length; j++){
+                        if(chatContent[i]["arr"][j]["amountType"] == "expend"){
+                            expend += (+chatContent[i]["arr"][j]["amount"]);
+                            expendTotle += (+chatContent[i]["arr"][j]["amount"]); 
+                        }else{
+                            income += (+chatContent[i]["arr"][j]["amount"]);
+                            incomeTotle += (+chatContent[i]["arr"][j]["amount"]);
+                        }
                     }
+                    expendTotleLst.push({
+                        "typeStr":chatContent[i]["_id"]["unit_name"],
+                        "expendTotle":expend
+                    });
+                    incomeTotleLst.push({
+                        "typeStr":chatContent[i]["_id"]["unit_name"],
+                        "incomeTotle":income
+                    });  
                 }
-                expendTotleLst.push({
-                    "typeStr":chatContent[i]["_id"]["unit_name"],
-                    "expendTotle":expend
-                });
-                incomeTotleLst.push({
-                    "typeStr":chatContent[i]["_id"]["unit_name"],
-                    "incomeTotle":income
-                });
             }
     ctx.body = {
         status: 200,
