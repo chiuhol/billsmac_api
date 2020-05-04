@@ -251,6 +251,20 @@ class UsersCtl {
         }
         
     }
+    async userStatic(ctx){
+        console.log(1111111);
+        const user = await User
+        .find({
+            phone: new RegExp(ctx.query.q)
+        });
+        ctx.body = {
+            status: 200,
+            msg: 'success',
+            data: {
+                user
+            }
+        };
+    }
 }
 
 module.exports = new UsersCtl();

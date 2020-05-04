@@ -11,7 +11,8 @@ const {
     delete: del,
     login,
     checkOwner,
-    updatePwd
+    updatePwd,
+    userStatic
 } = require('../controllers/users');
 
 const {
@@ -35,5 +36,7 @@ router.patch('/updatePwd/:id', auth, checkOwner, updatePwd);
 router.delete('/:id', del);
 
 router.post('/login', login);
+
+router.get('/userStatic', userStatic);
 
 module.exports = router;
