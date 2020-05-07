@@ -11,14 +11,10 @@ const {
     secret
 } = require('../config');
 
-const auth = jwt({
-    secret
-});
-
 router.get('/',find);
 
 router.post('/',create);
 
-router.patch('/:id',auth,update);
+router.patch('/:id',update);
 
 module.exports = router;
