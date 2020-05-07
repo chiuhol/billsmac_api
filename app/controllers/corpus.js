@@ -90,7 +90,7 @@ class CorpusCtl {
                 required: false
             },
             status:{
-                type:'boolen',
+                type:'boolean',
                 required:false
             }
         });
