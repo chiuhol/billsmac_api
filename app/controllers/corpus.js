@@ -13,7 +13,9 @@ class CorpusCtl {
         const q = new RegExp(ctx.query.q);
         if(ctx.query.q==""){
             const corpus = await Corpus
-            .find()
+            .find({
+                content: new RegExp(ctx.query.queryContent)
+            })
             .limit(perPage).skip(page * perPage).sort({
                 updatedAt: -1
             });
