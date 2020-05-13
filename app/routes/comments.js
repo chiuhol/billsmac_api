@@ -17,8 +17,8 @@ const auth = jwt({
 
 router.get('/', findByActicleId);
 
-router.post('/',auth,create);
+router.post('/',create);
 
-router.patch('/:id',auth,update);
+router.patch('/:id',update);
 
 module.exports = router;
