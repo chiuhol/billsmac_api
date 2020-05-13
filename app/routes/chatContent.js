@@ -17,9 +17,9 @@ const auth = jwt({
 
 router.get('/', find);
 
-router.post('/',create);
+router.post('/', auth,create);
 
-router.patch('/:id', update);
+router.patch('/:id', auth, update);
 
 router.get('/static',static);
 
