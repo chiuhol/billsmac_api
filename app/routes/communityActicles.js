@@ -4,7 +4,7 @@ const router = new Router({
     prefix: '/communityActicles'
 });
 const {
-    find,findByActicleId,create,update,findAll
+    find,findByActicleId,create,update,findAll,goodQuestion,cancelGoodQuestion,focus,cancelFocus
 } = require('../controllers/communityActicles');
 
 const {
@@ -24,5 +24,13 @@ router.get('/:id', findByActicleId);
 router.post('/',create);
 
 router.patch('/:id',update);
+
+router.post('/good',goodQuestion);
+
+router.post('/cancelGood',cancelGoodQuestion);
+
+router.post('/focusArticle',focus);
+
+router.post('/cancelFocusArticle',cancelFocus);
 
 module.exports = router;

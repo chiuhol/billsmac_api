@@ -4,7 +4,7 @@ const router = new Router({
     prefix: '/communityActicles/:communityActiclesId/comments'
 });
 const {
-    findByActicleId,create,update
+    findByActicleId,create,update,agree,cancelAgree,like,cancelLike
 } = require('../controllers/comments');
 
 const {
@@ -20,5 +20,13 @@ router.get('/', findByActicleId);
 router.post('/',create);
 
 router.patch('/:id',update);
+
+router.post('/agreeComment',agree);
+
+router.post('/cancelAgreeComment',cancelAgree);
+
+router.post('/likeComment',like);
+
+router.post('/cancelLikeComment',cancelLike);
 
 module.exports = router;

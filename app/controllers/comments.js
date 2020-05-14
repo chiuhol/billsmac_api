@@ -1,5 +1,7 @@
 const Comments = require('../models/comments');
 const Acticles = require('../models/communityActicle');
+const CommentsAgree = require('../models/commentsAgree');
+const CommentsLike = require('../models/commentsLike');
 const {
     secret
 } = require('../config');
@@ -18,11 +20,35 @@ class CommentsCtl {
         if (!comments) {
             ctx.throw(404, '该文章暂无评论');
         }
+        var newComments = [];
+        for(var i = 0; i < comments.length; i++){
+            var agreeLst = [];
+            var likeLst = [];
+            const agree = await CommentsAgree.find({
+                commentId:comments[i]._id
+            });
+            const like = await CommentsLike.find({
+                commentId:comments[i]._id
+            });
+            //统计点赞
+            if(agree.length != 0){
+                for(var j = 0; j < agree.length; j++){
+                    agreeLst.push(agree[j].userId);
+                }
+            }
+            //统计喜欢
+            if(like.length != 0){
+                for(var k = 0; k < agree.length; k++){
+                    likeLst.push(like[k].userId);
+                }
+            }
+            newComments.push({"comments":comments[i],"agreeLst":agreeLst,"likeLst":likeLst});
+        }
         ctx.body = {
             status: 200,
             msg: 'success',
             data: {
-                comments
+                newComments
             }
         };
     }
@@ -49,7 +75,6 @@ class CommentsCtl {
                 required: true
             }
         });
-        console.log(1111);
         const comments = await new Comments(ctx.request.body).save();
         await Acticles.findByIdAndUpdate(ctx.request.body.communityActicleId, {
             $inc: {
@@ -91,41 +116,6 @@ class CommentsCtl {
                 required: false
             }
         });
-        //实现对点赞数的自增或自减
-        if (typeof (ctx.request.body.isAgree) !== "undefined") {
-            console.log("好问题数" + ctx.request.body.isAgree);
-            if (ctx.request.body.isAgree === true) {
-                await Comments.findByIdAndUpdate(ctx.params.id, {
-                    $inc: {
-                        agreeNum: 1
-                    }
-                });
-            } else {
-                await Comments.findByIdAndUpdate(ctx.params.id, {
-                    $inc: {
-                        agreeNum: -1
-                    }
-                });
-            }
-        }
-        //实现对喜欢数的自增或自减
-        if (typeof (ctx.request.body.isLike) !== "undefined") {
-            console.log("关注数" + ctx.request.body.isLike);
-            if (ctx.request.body.isLike === true) {
-                await Comments.findByIdAndUpdate(ctx.params.id, {
-                    $inc: {
-                        likeNum: 1
-                    }
-                });
-            } else {
-                await Comments.findByIdAndUpdate(ctx.params.id, {
-                    $inc: {
-                        likeNum: -1
-                    }
-                });
-            }
-        }
-
         const comments = await Comments.findByIdAndUpdate(ctx.params.id, ctx.request.body);
         if (!comments) {
             ctx.throw(404, '该评论不存在');
@@ -135,6 +125,122 @@ class CommentsCtl {
             msg: 'success',
             data: {
                 comments
+            }
+        };
+    }
+    //点赞
+    async agree(ctx){
+        ctx.verifyParams({
+            commentId: {
+                type: 'string',
+                required: true
+            },
+            userId: {
+                type: 'string',
+                required: true
+            }
+        });
+        const agree = await new CommentsAgree(ctx.request.body).save();
+        await Comments.findByIdAndUpdate(ctx.params.id, {
+            $inc: {
+                agreeNum: 1
+            }
+        });
+        ctx.body = ctx.body = {
+            status: 200,
+            msg: 'success',
+            data: {
+                agree
+            }
+        };
+    }
+    //取消点赞
+    async cancelAgree(ctx){
+        ctx.verifyParams({
+            commentId: {
+                type: 'string',
+                required: true
+            },
+            userId: {
+                type: 'string',
+                required: true
+            }
+        });
+        const agree = await CommentsAgree.remove(
+            {
+                commentId:ctx.request.body.commentId,
+                userId:ctx.request.body.userId
+            }
+        );
+        //评论点赞数-1
+        await Comments.findByIdAndUpdate(ctx.params.id, {
+            $inc: {
+                agreeNum: -1
+            }
+        });
+        ctx.body = ctx.body = {
+            status: 200,
+            msg: 'success',
+            data: {
+                agree
+            }
+        };
+    }
+    //喜欢
+    async like(ctx){
+        ctx.verifyParams({
+            commentId: {
+                type: 'string',
+                required: true
+            },
+            userId: {
+                type: 'string',
+                required: true
+            }
+        });
+        const like = await new CommentsLike(ctx.request.body).save();
+        await Comments.findByIdAndUpdate(ctx.params.id, {
+            $inc: {
+                likeNum: 1
+            }
+        });
+        ctx.body = ctx.body = {
+            status: 200,
+            msg: 'success',
+            data: {
+                like
+            }
+        };
+    }
+    //取消喜欢
+    async cancelLike(ctx){
+        ctx.verifyParams({
+            commentId: {
+                type: 'string',
+                required: true
+            },
+            userId: {
+                type: 'string',
+                required: true
+            }
+        });
+        const like = await CommentsLike.remove(
+            {
+                commentId:ctx.request.body.commentId,
+                userId:ctx.request.body.userId
+            }
+        );
+        //评论喜欢数-1
+        await Comments.findByIdAndUpdate(ctx.params.id, {
+            $inc: {
+                likeNum: -1
+            }
+        });
+        ctx.body = ctx.body = {
+            status: 200,
+            msg: 'success',
+            data: {
+                like
             }
         };
     }
