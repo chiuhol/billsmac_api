@@ -254,7 +254,7 @@ class ActiclesCtl {
         });
         const goodQuQesion = await ArticlesGoodQuestion(ctx.request.body).save();
         //文章好问题数+1
-        await Acticles.findByIdAndUpdate(ctx.query.communityArticleId, {
+        await Acticles.findByIdAndUpdate(ctx.request.body.communityArticleId, {
             $inc: {
                 goodsNum: 1
             }
@@ -286,7 +286,7 @@ class ActiclesCtl {
             }
         );
         //文章好问题数-1
-        await Acticles.findByIdAndUpdate(ctx.query.communityArticleId, {
+        await Acticles.findByIdAndUpdate(ctx.request.body.communityArticleId, {
             $inc: {
                 goodsNum: -1
             }
@@ -313,7 +313,7 @@ class ActiclesCtl {
         });
         const focus = await ArticlesFocus(ctx.request.body).save();
         //文章关注数+1
-        await Acticles.findByIdAndUpdate(ctx.query.communityArticleId, {
+        await Acticles.findByIdAndUpdate(ctx.request.body.communityArticleId, {
             $inc: {
                 focusNum: 1
             }
@@ -345,7 +345,7 @@ class ActiclesCtl {
             }
         );
         //文章关注数-1
-        await Acticles.findByIdAndUpdate(ctx.query.communityArticleId, {
+        await Acticles.findByIdAndUpdate(ctx.request.body.communityArticleId, {
             $inc: {
                 focusNum: -1
             }

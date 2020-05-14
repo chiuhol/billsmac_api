@@ -141,7 +141,7 @@ class CommentsCtl {
             }
         });
         const agree = await new CommentsAgree(ctx.request.body).save();
-        await Comments.findByIdAndUpdate(ctx.query.commentId, {
+        await Comments.findByIdAndUpdate(ctx.request.body.commentId, {
             $inc: {
                 agreeNum: 1
             }
@@ -173,7 +173,7 @@ class CommentsCtl {
             }
         );
         //评论点赞数-1
-        await Comments.findByIdAndUpdate(ctx.query.commentId, {
+        await Comments.findByIdAndUpdate(ctx.request.body.commentId, {
             $inc: {
                 agreeNum: -1
             }
@@ -199,7 +199,7 @@ class CommentsCtl {
             }
         });
         const like = await new CommentsLike(ctx.request.body).save();
-        await Comments.findByIdAndUpdate(ctx.query.commentId, {
+        await Comments.findByIdAndUpdate(ctx.request.body.commentId, {
             $inc: {
                 likeNum: 1
             }
@@ -231,7 +231,7 @@ class CommentsCtl {
             }
         );
         //评论喜欢数-1
-        await Comments.findByIdAndUpdate(ctx.query.commentId, {
+        await Comments.findByIdAndUpdate(ctx.request.body.commentId, {
             $inc: {
                 likeNum: -1
             }
