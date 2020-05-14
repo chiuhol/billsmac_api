@@ -1,6 +1,7 @@
 const jsonwebtoken = require('jsonwebtoken');
 const User = require('../models/users');
 const Chatroom = require('../models/chatroom');
+const Objects = require('../models/objects');
 const {
     secret
 } = require('../config');
@@ -34,11 +35,16 @@ class UsersCtl {
         if (!user) {
             ctx.throw(404, '用户不存在');
         }
+        const objects = await Objects.find({
+            status: true,
+            userId: ctx.params.id
+        });
         ctx.body = {
             status: 200,
             msg: 'success',
             data: {
-                user
+                user,
+                objects
             }
         };
     }
