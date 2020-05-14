@@ -21,7 +21,7 @@ class ActiclesCtl {
             var newArticleLst = [];
             for(var i = 0; i < focus.length; i++){
                 const acticle = await Acticles
-                .find({
+                .findOne({
                     status: true,_id:focus[i].communityArticleId
                 });
                 if(acticle){
