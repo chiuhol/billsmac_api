@@ -30,8 +30,6 @@ class CommentsCtl {
             const like = await CommentsLike.find({
                 commentId:comments[i]._id
             });
-            console.log(agree);
-            console.log(like);
             //统计点赞
             if(agree.length != 0){
                 for(var j = 0; j < agree.length; j++){
@@ -143,7 +141,7 @@ class CommentsCtl {
             }
         });
         const agree = await new CommentsAgree(ctx.request.body).save();
-        await Comments.findByIdAndUpdate(ctx.params.id, {
+        await Comments.findByIdAndUpdate(ctx.query.commentId, {
             $inc: {
                 agreeNum: 1
             }
@@ -175,7 +173,7 @@ class CommentsCtl {
             }
         );
         //评论点赞数-1
-        await Comments.findByIdAndUpdate(ctx.params.id, {
+        await Comments.findByIdAndUpdate(ctx.query.commentId, {
             $inc: {
                 agreeNum: -1
             }
@@ -201,7 +199,7 @@ class CommentsCtl {
             }
         });
         const like = await new CommentsLike(ctx.request.body).save();
-        await Comments.findByIdAndUpdate(ctx.params.id, {
+        await Comments.findByIdAndUpdate(ctx.query.commentId, {
             $inc: {
                 likeNum: 1
             }
@@ -233,7 +231,7 @@ class CommentsCtl {
             }
         );
         //评论喜欢数-1
-        await Comments.findByIdAndUpdate(ctx.params.id, {
+        await Comments.findByIdAndUpdate(ctx.query.commentId, {
             $inc: {
                 likeNum: -1
             }
