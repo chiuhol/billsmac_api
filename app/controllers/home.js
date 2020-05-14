@@ -10,7 +10,8 @@ class HomeCtl {
         ctx.body = {
             status:200,
             msg:'success',
-            data:{url:ctx.origin+'/uploads/'+basename}
+            // data:{url:ctx.origin+'/uploads/'+basename}
+            data:{url:"116.62.141.151"+'/uploads/'+basename}
         };
     }
 }
