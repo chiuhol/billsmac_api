@@ -98,7 +98,7 @@ class ActiclesCtl {
             };
     }
     async findByActicleId(ctx) {
-        const article = await Acticles.find({
+        const article = await Acticles.findOne({
             status: true,
             _id: ctx.params.id
         });

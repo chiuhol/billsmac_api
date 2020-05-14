@@ -30,6 +30,8 @@ class CommentsCtl {
             const like = await CommentsLike.find({
                 commentId:comments[i]._id
             });
+            console.log(agree);
+            console.log(like);
             //统计点赞
             if(agree.length != 0){
                 for(var j = 0; j < agree.length; j++){
@@ -38,7 +40,7 @@ class CommentsCtl {
             }
             //统计喜欢
             if(like.length != 0){
-                for(var k = 0; k < agree.length; k++){
+                for(var k = 0; k < like.length; k++){
                     likeLst.push(like[k].userId);
                 }
             }
