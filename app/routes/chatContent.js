@@ -4,7 +4,7 @@ const router = new Router({
     prefix: '/chatroom/:chatroomId/chatContent'
 });
 const {
-    find,create,update,static,staticByType
+    find,create,update,static,staticByType,staticByTime
 } = require('../controllers/chatContent');
 
 const {
@@ -16,6 +16,8 @@ const auth = jwt({
 });
 
 router.get('/', find);
+
+router.get('/staticByTime', staticByTime);
 
 router.post('/', auth,create);
 

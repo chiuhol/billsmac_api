@@ -217,6 +217,33 @@ class ChatContentCtl {
         }
     }; 
     }
+    //根据用户输入的查询时间查询某个时间段的流水信息
+    async staticByTime(ctx){
+        const chatContent = await ChatContent.find({
+            status:true,
+            createdAt:{
+                "$gte": new Date(ctx.query.beginTime),
+                 "$lte":new Date(ctx.query.endTime)
+            }
+        });
+        var res = [];
+        for(var i = 0; i < chatContent.length; i++){
+            res.push({
+                "_id":chatContent[i]._id,
+                "typeStr":chatContent[i].rightcontent.typeStr,
+                "amountType":chatContent[i].rightcontent.amountType,
+                "amount":chatContent[i].rightcontent.amount,
+                "remark":chatContent[i].rightcontent.remark,
+            });
+        }
+        ctx.body = {
+            status: 200,
+            msg: 'success',
+            data: {
+                res
+            }
+        };
+    }
 }
 
 //获取指定年份、月份的第一天与最后一天
